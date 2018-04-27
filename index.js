@@ -12,14 +12,14 @@ bot.on('message', (message) => {
   if (message.author.bot) return;
 
   // Será que vem um comando por ai? (Comandos começam com `!`)
-  if (message.content.substring(1) === '!') {
+  if (message.content.startsWith('!ping')) {
     let args = message.content.substring(1).split(' ');
     let command = args[0];
     let text = (typeof args[1] === 'undefined') ? 'no-text' : args[1];
 
     switch (command) {
       case 'ping':
-        message.reply('Pong! ' + text)
+        message.channel.send('Pong! ' + text)
         break;
       default:
 
