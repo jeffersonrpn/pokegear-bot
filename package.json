@@ -1,0 +1,24 @@
+{
+  "name": "pokegear-bot",
+  "version": "0.0.1",
+  "description": "Informe spaws e organize raids no Pokémon Go com a Pokégear",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+    "test": "echo \"Não há testes ainda\""
+  },
+  "keywords": [
+    "pokemon",
+    "go",
+    "discord",
+    "bot",
+    "raids",
+    "spawns"
+  ],
+  "author": "Jefferson Neves <jefferson.rpn@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "discord.io": "^2.5.3",
+    "winston": "^2.4.2"
+  }
+}
