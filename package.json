@@ -16,6 +16,7 @@
   "author": "Jefferson Neves <jefferson.rpn@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^11.3.2"
+    "discord.js": "^11.3.2",
+    "firebase-admin": "^5.12.0"
   }
 }

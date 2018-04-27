@@ -1,10 +1,26 @@
 const Discord = require('discord.js');
+const admin = require('firebase-admin');
+
+const serviceAccount = require('./pokegear-bot-bdf71f5e9e3f.json');
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+});
+const db = admin.firestore();
 
 const bot = new Discord.Client();
 const token = process.env.DISCORD_TOKEN;
 
 bot.on('ready', () => {
   console.log(`Pokégear está pronta. Loggado como ${bot.user.tag}`);
+  db.collection('config').get()
+    .then((snapshot) => {
+        snapshot.forEach((doc) => {
+            console.log(doc.id, '=>', doc.data());
+        });
+    })
+    .catch((err) => {
+        console.log('Error getting documents', err);
+    });
 });
 
 bot.on('message', (message) => {
