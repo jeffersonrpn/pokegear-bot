@@ -1,3 +1,6 @@
+const Discord = require('discord.js');
+const store = require('./../store.js');
+
 module.exports = {
   run: (bot, message, args) => {
     return new Promise((resolve, reject) => {
@@ -9,12 +12,40 @@ module.exports = {
       }
       switch (arg) {
         case 'encontros':
-          message.channel.send(`Configurando encontros com Pokémon.\n\nQual canal devo mandar os alertas de encontros?\nCertifique-se que o nome do canal está correto e sem o '#'.`)
+          let embed = new Discord.RichEmbed()
+            .setAuthor(bot.user.username)
+            .setDescription(`Configurando encontros com Pokémon`)
+            .addField('Como configurar:', 'Entre com o nome do canal e os atalhos para o mesmo separados por vírgula.\nCertifique-se que o nome do canal está correto e sem o \'#\'.')
+            .addField('Exemplo:', 'spaws-geral geral, cg | spaws-parque parque, pdc');
+          message.channel.send(embed)
             .then(() => {
               const filter = m => message.author.id === m.author.id;
               message.channel.awaitMessages(filter, { time: 60000, maxMatches: 1, errors: ['time'] })
                 .then(messages => {
-                  message.channel.send(`Ok. Os avisos de encontros serão enviados para ${messages.first().content}`);
+                  let params = messages.first().content.split(' ');
+                  let channelName = (typeof params[0] === 'undefined') ? '' : params[0];
+                  let shortcuts = (typeof params[1] === 'undefined') ? [] : params[1].split(',');
+                  let channel = bot.channels.find(c => c.name === channelName);
+                  store.set('encounters', channelName, {
+                      "channel": {
+                        "id": channel.id,
+                        "name": channelName
+                      },
+                      "shortcuts": shortcuts
+                    })
+                    .then(() => {
+                      let embedOk = new Discord.RichEmbed()
+                        .setAuthor(bot.user.username)
+                        .setDescription(`Canal configurado! Os avisos de encontros serão enviados para ${channelName}`)
+                        .addField('Como enviar?', 'Para enviar um aviso de encontro, entre com algum desses comandos:')
+                        .addField('Exemplo', `!encontro ${channelName} pikachu`)
+                        .addField('Exemplo', `!encontro ${channelName} 25`);
+                      shortcuts.forEach(s => {
+                        embedOk.addField('Exemplo', `!encontro ${s} pikachu`);
+                      });
+                      message.channel.send(embedOk);
+                    })
+                    .catch(err => console.error(err));
                   resolve();
                 })
                 .catch(() => {
