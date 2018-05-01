@@ -1,4 +1,5 @@
 {
+  "api": "https://pokeapi.co/api/v2/",
   "colors": {
     "default": "#7289da"
   }
