@@ -17,6 +17,7 @@ module.exports = {
                 .setColor(settings.colors.default);
               message.channel.send(embed);
               resolve();
+              return;
             })
         })
         .catch(err => reject(err));

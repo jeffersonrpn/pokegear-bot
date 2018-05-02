@@ -26,5 +26,14 @@ module.exports = {
         })
         .catch(err => reject(err));
     });
+  },
+  find: (collection, field, term) => {
+    return new new Promise((resolve, reject) => {
+      db.collection(collection).where(field, '==', term).get()
+        .then(snapshot => {
+          resolve(snapshot.first());
+        })
+        .catch(err => reject(err));
+    });
   }
 }

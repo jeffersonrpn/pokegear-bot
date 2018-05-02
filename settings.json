@@ -1,6 +1,9 @@
 {
   "api": "https://pokeapi.co/api/v2/",
   "colors": {
-    "default": "#7289da"
+    "default": "#7289da",
+    "success": "#4cd137",
+    "error": "#e84118",
+    "encounters": "#fbc531"
   }
 }
